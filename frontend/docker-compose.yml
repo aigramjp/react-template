@@ -1,0 +1,29 @@
+version: "3.8"
+
+services:
+
+    react:
+        image: react:0.0
+        build:
+            context: .
+            dockerfile: Dockerfile
+        command: >
+            yarn start
+        container_name: emoca-react
+        volumes: 
+            - ./public:/var/www/public:ro
+            - ./src:/var/www/src:ro
+            - ./build:/var/www/build            
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+            CI: "true"
+        ports:
+            - "3000:3000"
+        networks:
+            - proxy-net
+
+networks:
+    proxy-net:
+        name: proxy-net
+        driver: bridge
+            
